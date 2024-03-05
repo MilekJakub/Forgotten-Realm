@@ -19,6 +19,8 @@ public:
 private:
     GLFWwindow* window;
     int bufferWidth, bufferHeight; // Dimensions of the framebuffer
+    GLuint VAO, VBO;
+    GLuint shaderProgram;
 
     // Process input from the user
     void processInput();
