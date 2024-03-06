@@ -2,7 +2,7 @@
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
 #include <stdexcept>
-#include<iostream>
+#include <iostream>
 
 Game::Game() : window(nullptr), bufferWidth(640), bufferHeight(480)
 {
@@ -13,6 +13,7 @@ Game::~Game()
     // Delete all the objects we've created
     glDeleteVertexArrays(1, &VAO);
     glDeleteBuffers(1, &VBO);
+    glDeleteBuffers(1, &EBO);
     glDeleteProgram(shaderProgram);
 
     glfwDestroyWindow(window);
@@ -67,14 +68,14 @@ void Game::init()
     // Create Vertex Shader Object and get its reference
     GLuint vertexShader = glCreateShader(GL_VERTEX_SHADER);
     // Attach Vertex Shader source to the Vertex Shader Object
-    glShaderSource(vertexShader, 1, &vertexShaderSource, NULL);
+    glShaderSource(vertexShader, 1, &vertexShaderSource, nullptr);
     // Compile the Vertex Shader into machine code
     glCompileShader(vertexShader);
 
     // Create Fragment Shader Object and get its reference
     GLuint fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
     // Attach Fragment Shader source to the Fragment Shader Object
-    glShaderSource(fragmentShader, 1, &fragmentShaderSource, NULL);
+    glShaderSource(fragmentShader, 1, &fragmentShaderSource, nullptr);
     // Compile the Vertex Shader into machine code
     glCompileShader(fragmentShader);
 
@@ -95,12 +96,23 @@ void Game::init()
     {
         -0.5f, -0.5f * float(sqrt(3)) / 3, 0.0f, // Lower left corner
         0.5f, -0.5f * float(sqrt(3)) / 3, 0.0f, // Lower right corner
-        0.0f, 0.5f * float(sqrt(3)) * 2 / 3, 0.0f // Upper corner
+        0.0f, 0.5f * float(sqrt(3)) * 2 / 3, 0.0f, // Upper corner
+        -0.5f / 2, 0.5f * float(sqrt(3)) / 6, 0.0f, // Inner left
+        0.5f / 2, 0.5f * float(sqrt(3)) / 6, 0.0f, // Inner right
+        0.0f, -0.5f * float(sqrt(3)) / 3, 0.0f // Inner down
+    };
+
+    GLuint indices[] =
+    {
+        0, 3, 5,
+        3, 2, 4,
+        5, 4, 1
     };
 
     // Generate the VAO and VBO with only 1 object each
     glGenVertexArrays(1, &VAO);
     glGenBuffers(1, &VBO);
+    glGenBuffers(1, &EBO);
 
     // Make the VAO the current Vertex Array Object by binding it
     glBindVertexArray(VAO);
@@ -110,14 +122,18 @@ void Game::init()
     // Introduce the vertices into the VBO
     glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
 
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
+    glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
+
     // Configure the Vertex Attribute so that OpenGL knows how to read the VBO
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), nullptr);
     // Enable the Vertex Attribute so that OpenGL knows to use it
     glEnableVertexAttribArray(0);
 
     // Bind both the VBO and VAO to 0 so that we don't accidentally modify the VAO and VBO we created
     glBindBuffer(GL_ARRAY_BUFFER, 0);
     glBindVertexArray(0);
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 
     // Specify the color of the background
     glClearColor(0.07f, 0.13f, 0.17f, 1.0f);
@@ -128,7 +144,7 @@ void Game::init()
     // Bind the VAO so OpenGL knows to use it
     glBindVertexArray(VAO);
     // Draw the triangle using the GL_TRIANGLES primitive
-    glDrawArrays(GL_TRIANGLES, 0, 3);
+    glDrawElements(GL_TRIANGLES, 9, GL_UNSIGNED_INT, nullptr);
     // Swap the back buffer with the front buffer
     glfwSwapBuffers(window);
     // Take care of all GLFW events
@@ -178,7 +194,7 @@ void Game::render()
     // Bind the VAO so OpenGL knows to use it
     glBindVertexArray(VAO);
     // Draw the triangle using the GL_TRIANGLES primitive
-    glDrawArrays(GL_TRIANGLES, 0, 3);
+    glDrawElements(GL_TRIANGLES, 9, GL_UNSIGNED_INT, nullptr);
     // Swap the back buffer with the front buffer
     glfwSwapBuffers(window);
     // Take care of all GLFW events
