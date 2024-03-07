@@ -1,3 +1,4 @@
+#define GL_SILENCE_DEPRECATION
 #include <exception>
 #include <cstdio>
 #include "Game.h"

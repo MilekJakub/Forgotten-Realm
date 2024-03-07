@@ -3,6 +3,10 @@
 
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
+#include "Renderer/Shader.h"
+#include "Renderer/EBO.h"
+#include "Renderer/VBO.h"
+#include "Renderer/VAO.h"
 
 class Game
 {
@@ -17,10 +21,12 @@ public:
     void run();
 
 private:
-    GLFWwindow* window;
-    int bufferWidth, bufferHeight; // Dimensions of the framebuffer
-    GLuint VAO = 0, VBO = 0, EBO = 0;
-    GLuint shaderProgram = {};
+    GLFWwindow* window = nullptr;
+    int bufferWidth = 640, bufferHeight = 480; // Dimensions of the framebuffer
+    Shader shader;
+    VAO vao;
+    VBO vbo;
+    EBO ebo;
 
     // Process input from the user
     void processInput();
