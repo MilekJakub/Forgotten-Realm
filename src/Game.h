@@ -23,10 +23,11 @@ public:
 private:
     GLFWwindow* window = nullptr;
     int bufferWidth = 640, bufferHeight = 480; // Dimensions of the framebuffer
-    Shader shader;
-    VAO vao;
-    VBO vbo;
-    EBO ebo;
+
+    Shader* shader = nullptr;
+    VAO* vao = nullptr;
+    VBO* vbo = nullptr;
+    EBO* ebo = nullptr;
 
     // Process input from the user
     void processInput();

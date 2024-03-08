@@ -1,28 +1,22 @@
 #include "Shader.h"
 
 // Reads a text file and outputs a string with everything in the text file
-std::string get_file_contents(const char* filename)
-{
-    std::ifstream in(filename, std::ios::binary);
-    if (in)
-    {
-        std::string contents;
-        in.seekg(0, std::ios::end);
-        auto size = in.tellg();
+std::string get_file_contents(const char *filePath) {
+    std::ifstream fileStream(filePath, std::ios::in);
 
-        if (size > std::numeric_limits<std::streamsize>::max()) {
-            throw std::ios_base::failure("File too large for reading into a string: " + std::string(filename));
-        }
-
-        contents.resize(size);
-        in.seekg(0, std::ios::beg);
-        in.read(&contents[0], static_cast<std::streamsize>(size));
-        in.close();
-        return contents;
+    if (!fileStream.is_open()) {
+        std::string errorMessage = "Could not open file: ";
+        errorMessage += filePath;
+        throw std::runtime_error(errorMessage);
     }
 
-    throw std::ios_base::failure("Failed to open or read from file: " + std::string(filename));
+    std::stringstream stringStream;
+    stringStream << fileStream.rdbuf(); // Read the file
+    fileStream.close(); // Close the file handler
+
+    return stringStream.str(); // Return the read content as a string
 }
+
 
 Shader::Shader(const char *vertexShaderFilePath, const char *fragmentShaderFilePath)
 {
@@ -37,14 +31,14 @@ Shader::Shader(const char *vertexShaderFilePath, const char *fragmentShaderFileP
     // Create Vertex Shader Object and get its reference
     GLuint vertexShader = glCreateShader(GL_VERTEX_SHADER);
     // Attach Vertex Shader source to the Vertex Shader Object
-    glShaderSource(vertexShader, 1, &vertexShaderSource, NULL);
+    glShaderSource(vertexShader, 1, &vertexShaderSource, nullptr);
     // Compile the Vertex Shader into machine code
     glCompileShader(vertexShader);
 
     // Create Fragment Shader Object and get its reference
     GLuint fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
     // Attach Fragment Shader source to the Fragment Shader Object
-    glShaderSource(fragmentShader, 1, &fragmentShaderSource, NULL);
+    glShaderSource(fragmentShader, 1, &fragmentShaderSource, nullptr);
     // Compile the Vertex Shader into machine code
     glCompileShader(fragmentShader);
 
@@ -62,13 +56,13 @@ Shader::Shader(const char *vertexShaderFilePath, const char *fragmentShaderFileP
 }
 
 // Activates the Shader Program
-void Shader::Activate()
+void Shader::Activate() const
 {
     glUseProgram(Id);
 }
 
 // Deletes the Shader Program
-void Shader::Delete()
+void Shader::Delete() const
 {
     glDeleteProgram(Id);
 }

@@ -28,26 +28,6 @@ GLuint indices[] =
 };
 
 Game::Game()
-        : shader("default.vert", "default.frag"), // Initialize shader with vertex and fragment shader file paths
-          vbo(vertices, sizeof(vertices)),        // Initialize vbo with vertices array and its size
-          ebo(indices, sizeof(indices))           // Initialize ebo with indices array and its size
-{
-
-}
-
-Game::~Game()
-{
-    // Delete all the objects we've created
-    vao.Delete();
-    vbo.Delete();
-    ebo.Delete();
-    shader.Delete();
-
-    glfwDestroyWindow(window);
-    glfwTerminate();
-}
-
-void Game::init()
 {
     if (!glfwInit())
     {
@@ -76,24 +56,39 @@ void Game::init()
     }
 
     glViewport(0, 0, bufferWidth, bufferHeight);
+}
 
-    vao.Bind();
+Game::~Game()
+{
+    // Delete all the objects we've created
+    ebo->Delete();
+    vbo->Delete();
+    vao->Delete();
+    shader->Delete();
 
+    delete ebo;
+    delete vbo;
+    delete vao;
+    delete shader;
 
-    vao.LinkVBO(vbo, 0);
-    vao.Unbind();
-    vbo.Unbind();
-    ebo.Unbind();
+    glfwDestroyWindow(window);
+    glfwTerminate();
+}
 
-    shader.Activate();
-    // Bind the VAO so OpenGL knows to use it
-    vao.Bind();
-    // Draw the triangle using the GL_TRIANGLES primitive
-    glDrawElements(GL_TRIANGLES, 9, GL_UNSIGNED_INT, nullptr);
-    // Swap the back buffer with the front buffer
-    glfwSwapBuffers(window);
-    // Take care of all GLFW events
-    glfwPollEvents();
+void Game::init()
+{
+    shader = new Shader("/Users/jakubmilek/Forgotten-Realm/src/Shaders/default.vert", "/Users/jakubmilek/Forgotten-Realm/src/Shaders/default.frag");
+
+    vao = new VAO();
+    vao->Bind();
+
+    vbo = new VBO(vertices, sizeof(vertices));
+    ebo = new EBO(indices, sizeof(indices));
+
+    vao->LinkVBO(*vbo, 0);
+    vao->Unbind();
+    vbo->Unbind();
+    ebo->Unbind();
 }
 
 void Game::run()
@@ -112,9 +107,6 @@ void Game::run()
         processInput();
         update();
         render();
-
-        glfwPollEvents();
-        glfwSwapBuffers(window);
     }
 }
 
@@ -130,18 +122,11 @@ void Game::update()
 
 void Game::render()
 {
-    // Specify the color of the background
     glClearColor(0.07f, 0.13f, 0.17f, 1.0f);
-    // Clean the back buffer and assign the new color to it
     glClear(GL_COLOR_BUFFER_BIT);
-    // Tell OpenGL which Shader Program we want to use
-    shader.Activate();
-    // Bind the VAO so OpenGL knows to use it
-    vao.Bind();
-    // Draw the triangle using the GL_TRIANGLES primitive
+    shader->Activate();
+    vao->Bind();
     glDrawElements(GL_TRIANGLES, 9, GL_UNSIGNED_INT, nullptr);
-    // Swap the back buffer with the front buffer
     glfwSwapBuffers(window);
-    // Take care of all GLFW events
     glfwPollEvents();
 }
