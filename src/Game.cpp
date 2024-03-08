@@ -9,7 +9,6 @@
 #include "Renderer/VBO.h"
 #include "Renderer/EBO.h"
 
-// Vertices coordinates
 GLfloat vertices[] =
 {
     -0.5f,      -0.5f * float(sqrt(3)) / 3,     0.0f, // Lower left corner
@@ -60,7 +59,6 @@ Game::Game()
 
 Game::~Game()
 {
-    // Delete all the objects we've created
     ebo->Delete();
     vbo->Delete();
     vao->Delete();

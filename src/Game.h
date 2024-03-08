@@ -14,10 +14,7 @@ public:
     Game();
     ~Game();
 
-    // Initializes the game, including setting up the window and OpenGL context
     void init();
-
-    // Begins the game loop, processing input, updating game state, and rendering
     void run();
 
 private:
@@ -29,13 +26,8 @@ private:
     VBO* vbo = nullptr;
     EBO* ebo = nullptr;
 
-    // Process input from the user
     void processInput();
-
-    // Update the game state
     void update();
-
-    // Render the game
     void render();
 };
 
