@@ -110,7 +110,10 @@ void Game::run()
 
 void Game::processInput()
 {
-
+    if(glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
+    {
+        glfwSetWindowShouldClose(window, true);
+    }
 }
 
 void Game::update()
