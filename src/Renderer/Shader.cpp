@@ -1,28 +1,43 @@
 #include "Shader.h"
 
 // Reads a text file and outputs a string with everything in the text file
-std::string get_file_contents(const char *filePath) {
+std::string get_file_contents(const std::string& filePath) {
     std::ifstream fileStream(filePath, std::ios::in);
 
     if (!fileStream.is_open()) {
-        std::string errorMessage = "Could not open file: ";
-        errorMessage += filePath;
+        std::string errorMessage = "Could not open file: " + filePath;
         throw std::runtime_error(errorMessage);
     }
 
     std::stringstream stringStream;
     stringStream << fileStream.rdbuf(); // Read the file
-    fileStream.close(); // Close the file handler
+    fileStream.close();
 
     return stringStream.str(); // Return the read content as a string
 }
 
-
 Shader::Shader(const char *vertexShaderFilePath, const char *fragmentShaderFilePath)
 {
+    // Get the current working directory (/Forgotten-Realm/cmake-build-debug)
+    std::filesystem::path currentPath = std::filesystem::current_path();
+
+    // Navigate up one directory from the current path (/Forgotten-Realm)
+    std::filesystem::path projectRootPath = currentPath.parent_path();
+
+    // Construct the path to the shaders directory relative to the project root
+    std::filesystem::path shaderDir = projectRootPath / "src" / "Shaders";
+
+    // Construct the full paths to the vertex and fragment shaders
+    std::filesystem::path vertexShaderPath = shaderDir / vertexShaderFilePath;
+    std::filesystem::path fragmentShaderPath = shaderDir / fragmentShaderFilePath;
+
+    // Convert the paths to string for use with the file reading function
+    std::string vertexShaderFullPath = vertexShaderPath.string();
+    std::string fragmentShaderFullPath = fragmentShaderPath.string();
+
     // Read vertexFile and fragmentFile and store the strings
-    std::string vertexShaderSourceCode = get_file_contents(vertexShaderFilePath);
-    std::string fragmentShaderSourceCode = get_file_contents(fragmentShaderFilePath);
+    std::string vertexShaderSourceCode = get_file_contents(vertexShaderFullPath);
+    std::string fragmentShaderSourceCode = get_file_contents(fragmentShaderFullPath);
 
     // Convert the shader source strings into character arrays
     const char* vertexShaderSource = vertexShaderSourceCode.c_str();

@@ -75,7 +75,7 @@ Game::~Game()
 
 void Game::init()
 {
-    shader = new Shader("/Users/jakubmilek/Forgotten-Realm/src/Shaders/default.vert", "/Users/jakubmilek/Forgotten-Realm/src/Shaders/default.frag");
+    shader = new Shader("default.vert", "default.frag");
 
     vao = new VAO();
     vao->Bind();
