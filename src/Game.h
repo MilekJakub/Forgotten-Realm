@@ -8,6 +8,11 @@
 #include "Renderer/VBO.h"
 #include "Renderer/VAO.h"
 
+enum GameState {
+    GAME_MENU,
+    GAME_ACTIVE
+};
+
 class Game
 {
 public:
@@ -21,6 +26,7 @@ private:
     GLFWwindow* window = nullptr;
     int bufferWidth = 640, bufferHeight = 480; // Dimensions of the framebuffer
 
+    GameState* gameState = nullptr;
     Shader* shader = nullptr;
     VAO* vao = nullptr;
     VBO* vbo = nullptr;
