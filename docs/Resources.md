@@ -7,7 +7,7 @@ Getting started:
 - [x] Creating a window
 - [x] Hello Window
 - [x] Hello Triangle
-- [ ] Shaders
+- [x] Shaders
 - [ ] Textures
 - [ ] Transformations
 - [ ] Coordinate Systems
