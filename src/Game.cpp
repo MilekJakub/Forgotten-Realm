@@ -11,12 +11,13 @@
 
 GLfloat vertices[] =
 {
-    -0.5f,      -0.5f * float(sqrt(3)) / 3,     0.0f, // Lower left corner
-     0.5f,      -0.5f * float(sqrt(3)) / 3,     0.0f, // Lower right corner
-     0.0f,       0.5f * float(sqrt(3)) * 2 / 3, 0.0f, // Upper corner
-    -0.5f / 2,   0.5f * float(sqrt(3)) / 6,     0.0f, // Inner left
-     0.5f / 2,   0.5f * float(sqrt(3)) / 6,     0.0f, // Inner right
-     0.0f,      -0.5f * float(sqrt(3)) / 3,     0.0f  // Inner down
+    //                  positions                              colors
+    -0.5f,      -0.5f * float(sqrt(3)) / 3,     0.0f,     1.0f, 0.0f, 0.0f, // Lower left corner
+     0.5f,      -0.5f * float(sqrt(3)) / 3,     0.0f,     0.0f, 1.0f, 0.0f, // Lower right corner
+     0.0f,       0.5f * float(sqrt(3)) * 2 / 3, 0.0f,     0.0f, 0.0f, 1.0f, // Upper corner
+    -0.5f / 2,   0.5f * float(sqrt(3)) / 6,     0.0f,     1.0f, 0.0f, 0.0f, // Inner left
+     0.5f / 2,   0.5f * float(sqrt(3)) / 6,     0.0f,     0.0f, 1.0f, 0.0f, // Inner right
+     0.0f,      -0.5f * float(sqrt(3)) / 3,     0.0f,     1.0f, 0.0f, 0.0f  // Inner down
 };
 
 GLuint indices[] =
@@ -126,13 +127,6 @@ void Game::render()
     glClearColor(0.07f, 0.13f, 0.17f, 1.0f);
     glClear(GL_COLOR_BUFFER_BIT);
     shader->Activate();
-
-    // update the uniform color
-    auto timeValue = (float)glfwGetTime();
-    float greenValue = sin(timeValue) / 2.0f + 0.5f;
-    int vertexColorLocation = glGetUniformLocation(shader->Id, "ourColor");
-    glUniform4f(vertexColorLocation, 0.0f, greenValue, 0.0f, 1.0f);
-
     vao->Bind();
     glDrawElements(GL_TRIANGLES, 9, GL_UNSIGNED_INT, nullptr);
     glfwSwapBuffers(window);
