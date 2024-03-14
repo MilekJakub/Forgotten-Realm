@@ -126,6 +126,13 @@ void Game::render()
     glClearColor(0.07f, 0.13f, 0.17f, 1.0f);
     glClear(GL_COLOR_BUFFER_BIT);
     shader->Activate();
+
+    // update the uniform color
+    auto timeValue = (float)glfwGetTime();
+    float greenValue = sin(timeValue) / 2.0f + 0.5f;
+    int vertexColorLocation = glGetUniformLocation(shader->Id, "ourColor");
+    glUniform4f(vertexColorLocation, 0.0f, greenValue, 0.0f, 1.0f);
+
     vao->Bind();
     glDrawElements(GL_TRIANGLES, 9, GL_UNSIGNED_INT, nullptr);
     glfwSwapBuffers(window);
