@@ -18,18 +18,18 @@ std::string get_file_contents(const std::string& filePath) {
 
 Shader::Shader(const char *vertexShaderFilePath, const char *fragmentShaderFilePath)
 {
-    // Get the current working directory (/Forgotten-Realm/cmake-build-debug)
+    // Get the current working directory: Forgotten-Realm/cmake-build-debug
     std::filesystem::path currentPath = std::filesystem::current_path();
 
-    // Navigate up one directory from the current path (/Forgotten-Realm)
+    // Navigate up one directory from the current path: /Forgotten-Realm
     std::filesystem::path projectRootPath = currentPath.parent_path();
 
-    // Construct the path to the shaders directory relative to the project root
+    // Construct the path to the shaders directory relative to the project root: Forgotten-Realm/src/Shaders
     std::filesystem::path shaderDir = projectRootPath / "src" / "Shaders";
 
     // Construct the full paths to the vertex and fragment shaders
-    std::filesystem::path vertexShaderPath = shaderDir / vertexShaderFilePath;
-    std::filesystem::path fragmentShaderPath = shaderDir / fragmentShaderFilePath;
+    std::filesystem::path vertexShaderPath = shaderDir / vertexShaderFilePath;     // Forgotten-Realm/src/Shaders/default.vert
+    std::filesystem::path fragmentShaderPath = shaderDir / fragmentShaderFilePath; // Forgotten-Realm/src/Shaders/default.frag
 
     // Convert the paths to string for use with the file reading function
     std::string vertexShaderFullPath = vertexShaderPath.string();
