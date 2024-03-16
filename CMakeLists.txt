@@ -14,8 +14,7 @@ file(GLOB_RECURSE SOURCE_FILES
         ${CMAKE_SOURCE_DIR}/src/*.h
         ${CMAKE_SOURCE_DIR}/src/*.hpp)
 
-add_executable(${PROJECT_NAME} ${SOURCE_FILES}
-        src/Renderer/stb_image.cpp)
+add_executable(${PROJECT_NAME} ${SOURCE_FILES})
 
 find_package(OpenGL REQUIRED)
 target_include_directories(${PROJECT_NAME} PRIVATE ${OPENGL_INCLUDE_DIRS})

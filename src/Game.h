@@ -7,6 +7,7 @@
 #include "Renderer/EBO.h"
 #include "Renderer/VBO.h"
 #include "Renderer/VAO.h"
+#include "Renderer/Texture.h"
 
 enum GameState {
     GAME_MENU,
@@ -31,6 +32,7 @@ private:
     VAO* vao = nullptr;
     VBO* vbo = nullptr;
     EBO* ebo = nullptr;
+    Texture* texture = nullptr;
 
     void processInput();
     void update();
