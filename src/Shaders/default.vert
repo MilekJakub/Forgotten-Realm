@@ -6,9 +6,11 @@ layout (location = 2) in vec2 aTexture;
 out vec3 color;
 out vec2 textureCoordinates;
 
+uniform mat4 transform;
+
 void main()
 {
-    gl_Position = vec4(aPos, 1.0);
+    gl_Position = transform * vec4(aPos, 1.0f);
     color = aColor;
-    textureCoordinates = aTexture;
+    textureCoordinates = vec2(aTexture.x, aTexture.y);
 }
