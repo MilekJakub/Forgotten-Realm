@@ -8,8 +8,8 @@ Getting started:
 - [x] Hello Window
 - [x] Hello Triangle
 - [x] Shaders
-- [ ] Textures
-- [ ] Transformations
+- [x] Textures
+- [x] Transformations
 - [ ] Coordinate Systems
 - [ ] Camera
 - [ ] Review
