@@ -25,7 +25,7 @@ public:
 
 private:
     GLFWwindow* window = nullptr;
-    int bufferWidth = 640, bufferHeight = 480; // Dimensions of the framebuffer
+    int bufferWidth = 800, bufferHeight = 600; // Dimensions of the framebuffer
 
     GameState* gameState = nullptr;
     Shader* shader = nullptr;
