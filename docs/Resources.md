@@ -28,7 +28,7 @@ Angles and Circles
 - [x] Triangles (7:13)
 - [x] Pythagorean Theorem (7:50)
 - [x] Sine, Cosine, and Tangent Part 1 (7:56)
-- [ ] Sine, Cosine, and Tangent Part 2 (10:53)
+- [x] Sine, Cosine, and Tangent Part 2 (10:53)
 - [ ] SOH CAH TOA (11:13)
 - [ ] The Sine Rule (11:00)
 - [ ] The Cosine Rule (7:32)
